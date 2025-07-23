@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>あにまん掲示板 - スレ一覧</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: "Yu Gothic", sans-serif;
+      text-align: center;
+      padding: 2em;
+    }
+    h1 {
+      font-size: 1.8em;
+      margin-bottom: 1em;
+    }
+    button {
+      background-color: #444;
+      color: #fff;
+      border: none;
+      padding: 0.6em 1.2em;
+      border-radius: 0.3em;
+      cursor: pointer;
+      margin-bottom: 1em;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin: 0.5em 0;
+    }
+    a {
+      color: #99ccff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>あにまん掲示板 - スレ一覧</h1>
+  <button onclick="loadThreads()">最新スレを読み込む</button>
+  <div id="threads">ここにスレ一覧が表示されます！</div>
+
+  <script>
+    async function loadThreads() {
+      const url = "https://bbs.animanch.com/";
+      try {
+        const resp = await fetch(url);
+        const html = await resp.text();
+        const doc = new DOMParser().parseFromString(html, "text/html");
+
+        const links = Array.from(doc.querySelectorAll('a[href^="/board/"]'));
+
+        const unique = [...new Map(links.map(a => [a.href, a])).values()];
+
+        const htmlList = unique.map(link => {
+          return `<li><a href="https://bbs.animanch.com${link.getAttribute('href')}" target="_blank">${link.textContent.trim()}2025/07/2403:31:54</a></li>`;
+        }).join('');
+
+        document.getElementById("threads").innerHTML = `<ul>${htmlList}</ul>`;
+      } catch (e) {
+        document.getElementById("threads").innerText = "スレ一覧の取得に失敗しました…🥲";
+        console.error(e);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>あにまん掲示板ビューア（スレ一覧）</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    a { display: block; margin: 10px 0; color: #0066cc; }
+  </style>
+</head>
+<body>
+  <h1>あにまん掲示板 - スレ一覧</h1>
+  <button onclick="loadThreads()">最新スレを読み込む</button>
+  <div id="threads">ここにスレ一覧が表示されます！</div>
+
+<script>
+function loadThreads() {
+    const threads = [
+        "【速報】あにまんが超進化！？",
+        "好きなパンの話しようぜ🍞",
+        "スレ一覧ビューア作ったやつおる？（←お前）"
+    ];
+
+    const threadList = threads.map(title => `<li>${title}</li>`).join("");
+    document.getElementById("threads").innerHTML = `<ul>${threadList}</ul>`;
+}
+</script>
+</body>
+</html>
